@@ -14,4 +14,7 @@ $('#start-random').on('click', () => {
 
 $(document).ready(() => {
     Customer.render(TableListCustomerBody);
+    if (customers.length === 0) {
+        $('#start-random').prop('disabled', true);
+    }
 });

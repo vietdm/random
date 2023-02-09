@@ -40,6 +40,7 @@ function RandomControl(datas, el, winnerMgs = '%winner% đã chiến thắng!!!'
 
     const run = (timeout = 1) => {
         const winner = datas[RandomControlCommon.randomIndex(datas.length)];
+        if (!winner) return;
         let index = 0;
         let intervalRandomShow = null;
         let intervalChangeIndex = null;
