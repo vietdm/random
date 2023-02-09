@@ -1,0 +1,39 @@
+body,
+#header,
+.table th,
+.table td {
+    background-color: #fff !important;
+    color: #0a3d62 !important;
+}
+
+#modal_add_customer .btn-edit-customer {
+    display: none;
+}
+
+#modal_add_customer .btn-add-customer {
+    display: block;
+}
+
+#modal_add_customer .modal-title-add {
+    display: block;
+}
+
+#modal_add_customer .modal-title-edit {
+    display: none;
+}
+
+#modal_add_customer.edit .btn-edit-customer {
+    display: block;
+}
+
+#modal_add_customer.edit .btn-add-customer {
+    display: none;
+}
+
+#modal_add_customer.edit .modal-title-add {
+    display: none;
+}
+
+#modal_add_customer.edit .modal-title-edit {
+    display: block;
+}

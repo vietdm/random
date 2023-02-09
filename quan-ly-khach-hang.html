@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khách hàng</title>
+    <link rel="shortcut icon" href="/images/logo.ico">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/customer.css">
+</head>
+
+<body>
+    <div id="header">
+        <div class="logo">
+            <img src="/images/logo.png" alt="Logo" width="40px">
+        </div>
+        <div class="menu">
+            <a href="/">Trang chủ</a>
+        </div>
+    </div>
+    <div id="contents" class="container">
+        <div class="alert alert-info text-center font-weight-bold">Danh sách khách hàng</div>
+        <div class="d-flex justify-content-end mb-2">
+            <button class="btn btn-primary add-new-customer">Thêm khách hàng mới</button>
+        </div>
+        <table class="table table-center table-bordered" id="table-list-customer">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Mã KH</th>
+                    <th>Tên KH</th>
+                    <th>SDT</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td colspan="5">Không có khách hàng nào</td>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal_add_customer" tabindex="-1" role="dialog" aria-labelledby="modalAddCustomer"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title modal-title-add">Thêm khách hàng mới</h5>
+                    <h5 class="modal-title modal-title-edit">Sửa thông tin khách hàng</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" onsubmit="() => false">
+                        <div class="form-group">
+                            <label for="c_code">Mã:</label>
+                            <input type="text" name="c_code" id="c_code" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="c_name">Tên:</label>
+                            <input type="text" name="c_name" id="c_name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="c_phone">Số điện thoại:</label>
+                            <input type="text" name="c_phone" id="c_phone" class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-info btn-add-customer cb-continue">Thêm và tiếp tục</button>
+                    <button type="button" class="btn btn-primary btn-add-customer">Thêm và đóng</button>
+                    <button type="button" class="btn btn-primary btn-edit-customer">Sửa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/sweetalert.min.js"></script>
+    <script src="/js/store.min.js"></script>
+    <script src="/js/fire.js"></script>
+    <script src="/js/customer.js"></script>
+    <script src="/js/customer-control.js"></script>
+</body>
+
+</html>
