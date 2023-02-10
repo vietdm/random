@@ -46,7 +46,7 @@ AddCustomerModal.find('input').on('input', function (e) {
     $(this).removeClass('error');
     if (
         ($(this).hasClass('number-only') || $(this).attr('type') == 'number')
-        && (/^\D.*$/.test(e.data))
+        && (/\D/.test(e.data))
     ) {
         console.log(this.value, typeof this.value, this.value.replace(/\D/g, ''));
         this.value = parseInt(this.value.replace(/\D/g, ''));
