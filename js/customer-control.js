@@ -48,7 +48,7 @@ AddCustomerModal.find('input').on('input', function (e) {
         ($(this).hasClass('number-only') || $(this).attr('type') == 'number')
         && (/^\D.*$/.test(e.data))
     ) {
-        this.value = this.value.replace(/\D/g, '');
+        this.value = parseInt(this.value.replace(/\D/g, ''));
     }
 });
 
