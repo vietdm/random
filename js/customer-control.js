@@ -44,13 +44,17 @@ AddCustomerModal.on('hidden.bs.modal', () => {
 
 AddCustomerModal.find('input').on('input', function (e) {
     $(this).removeClass('error');
-    if (
-        $(this).hasClass('number-only') &&
-        !(/^\d*\.?\d*$/.test(e.data))
-    ) {
-        this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');
-    }
 });
+
+// AddCustomerModal.find('input').on('keydown', function (e) {
+//     if (
+//         $(this).hasClass('number-only') &&
+//         !(/^\d*\.?\d*$/.test(e.data))
+//     ) {
+//         this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');
+//     }
+// });
+
 
 AddCustomerModal.find('.btn-add-customer').on('click', function () {
     if (!validateFormCustomer()) return;
