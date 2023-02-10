@@ -49,7 +49,7 @@ AddCustomerModal.find('input').on('input', function (e) {
         && (/\D/.test(e.data))
     ) {
         console.log(this.value, typeof this.value, this.value.replace(/\D/g, ''));
-        this.value = parseInt(this.value.replace(/\D/g, ''));
+        // this.value = parseInt(this.value.replace(/\D/g, ''));
     }
 });
 
