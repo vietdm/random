@@ -1,4 +1,5 @@
 const BtnAddCustomer = $('.add-new-customer');
+const BtnResetCustomer = $('.reset-customer');
 const AddCustomerModal = $('#modal_add_customer');
 const TableListCustomer = $('#table-list-customer');
 const TableListCustomerBody = TableListCustomer.find('tbody');
@@ -27,13 +28,28 @@ BtnAddCustomer.on('click', () => {
     });
 });
 
+BtnResetCustomer.on('click', () => {
+    const resetCustomerAction = () => {
+        Customer.reset();
+        Fire.success('Làm trống danh sách khách hàng thành công!', 'Thành công!');
+        renderTableData();
+    };
+    Fire.confirm('Chắc chắn xóa hết khách hàng?', resetCustomerAction);
+});
+
 AddCustomerModal.on('hidden.bs.modal', () => {
     AddCustomerModal.find('form').trigger('reset');
     AddCustomerModal.removeClass('edit').removeAttr('data-c-code');
 });
 
-AddCustomerModal.find('input').on('input', function () {
+AddCustomerModal.find('input').on('input', function (e) {
     $(this).removeClass('error');
+    if (
+        $(this).hasClass('number-only') &&
+        !(/^\d*\.?\d*$/.test(e.data))
+    ) {
+        this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');
+    }
 });
 
 AddCustomerModal.find('.btn-add-customer').on('click', function () {

@@ -78,6 +78,7 @@ body {
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
+#contents .random .random-text,
 #contents .random .random-show {
     font-weight: bolder;
     font-size: 48px;
@@ -86,7 +87,7 @@ body {
 }
 
 #contents .random .random-show .text {
-    width: 50px;
+    width: 35px;
     text-align: center;
 }
 

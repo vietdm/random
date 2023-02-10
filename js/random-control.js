@@ -38,9 +38,20 @@ function RandomControl(datas, el, winnerMgs = '%winner% đã chiến thắng!!!'
         }
     }
 
-    const run = (timeout = 1) => {
-        const winner = datas[RandomControlCommon.randomIndex(datas.length)];
-        if (!winner) return;
+    const run = async (timeout = 1) => {
+        const listWinner = Winner.all();
+        $('#start-random').prop('disabled', true);
+        const dataCurrent = datas.filter(data => !listWinner.includes(data));
+        const winner = dataCurrent[RandomControlCommon.randomIndex(dataCurrent.length)];
+        if (!winner) {
+            return;
+        }
+        listWinner.push(winner);
+        Winner.add(winner);
+        $('.random-text').hide(100);
+        $('.random-show').show(100);
+        await new Promise(resolve => setTimeout(resolve, 200));
+        $('.random-show').css('display', 'flex');
         let index = 0;
         let intervalRandomShow = null;
         let intervalChangeIndex = null;
@@ -48,12 +59,14 @@ function RandomControl(datas, el, winnerMgs = '%winner% đã chiến thắng!!!'
             clearInterval(intervalRandomShow);
             clearInterval(intervalChangeIndex);
             showWinner(winner);
+            Winner.render();
             Fire.success(winnerMgs.replace('%winner%', winner));
+            if (listWinner.length !== datas.length) $('#start-random').prop('disabled', false);
         }
         intervalRandomShow = setInterval(() => {
             let randomText = winner.substr(0, index);
             for (let i = index; i < winner.length; i++) {
-                randomText += RandomControlCommon.randomOneCharacter();
+                randomText += RandomControlCommon.randomOneNumber();
             }
             showWinner(randomText);
         }, 50);
