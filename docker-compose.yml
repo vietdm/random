@@ -1,0 +1,65 @@
+version: '3.3'
+
+services:
+  nginx:
+    container_name: random_nginx
+    image: nginx:alpine
+    ports:
+      - "89:80"
+    volumes:
+      - .:/app
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    restart: always
+    networks:
+      - random_network
+
+  app:
+    container_name: random_app
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    working_dir: /app
+    restart: always
+    volumes:
+      - .:/app
+      - ./docker/php.ini:/usr/local/etc/php/php.ini
+    networks:
+      - random_network
+
+  database:
+    container_name: random_database
+    image: library/mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: cdmllove
+      MYSQL_DATABASE: random_db
+    volumes:
+      - data:/var/lib/mysql
+      - ./docker/mysql.cnf:/etc/mysql/conf.d/custom.cnf
+    networks:
+      - random_network
+
+  phpmyadmin:
+    container_name: random_phpmyadmin
+    depends_on:
+      - database
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    ports:
+      - '88:80'
+    environment:
+      PMA_HOST: database
+      MYSQL_ROOT_PASSWORD: cdmllove
+    networks:
+      - random_network
+
+volumes:
+  data:
+    driver: local
+
+networks:
+  random_network:
+    driver: bridge
