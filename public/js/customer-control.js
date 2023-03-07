@@ -17,8 +17,9 @@ const validateFormCustomer = () => {
     return !hasError;
 };
 
-const renderTableData = () => {
-    Customer.render(TableListCustomerBody, true);
+const renderTableData = async () => {
+    const result = await $.get('/admin/customer');
+    Customer.render(TableListCustomerBody, result.data, true);
 };
 
 BtnAddCustomer.on('click', () => {
@@ -29,10 +30,14 @@ BtnAddCustomer.on('click', () => {
 });
 
 BtnResetCustomer.on('click', () => {
-    const resetCustomerAction = () => {
-        Customer.reset();
-        Fire.success('Làm trống danh sách khách hàng thành công!', 'Thành công!');
-        renderTableData();
+    const resetCustomerAction = async () => {
+        const result = await $.post('/admin/customer/truncate');
+        if (result.success) {
+            Fire.success('Làm trống danh sách khách hàng thành công!', 'Thành công!');
+            renderTableData();
+        } else {
+            Fire.error(result.message);
+        }
     };
     Fire.confirm('Chắc chắn xóa hết khách hàng?', resetCustomerAction);
 });
@@ -52,23 +57,17 @@ AddCustomerModal.find('input').on('input', function (e) {
     }
 });
 
-
-AddCustomerModal.find('.btn-add-customer').on('click', function () {
+AddCustomerModal.find('.btn-add-customer').on('click', async function () {
     if (!validateFormCustomer()) return;
     let newCustomer = AddCustomerModal.find('form').serializeArray();
     newCustomer = newCustomer.reduce((res, cus) => {
         res[cus.name] = cus.value;
         return res;
     }, {});
-    const statusAddCustomer = Customer.add(
-        newCustomer.c_code,
-        newCustomer.c_name,
-        newCustomer.c_phone
-    );
-    if (!statusAddCustomer) {
-        return false;
+    const result = await $.post('/admin/customer/add', newCustomer);
+    if (!result.success) {
+        return Fire.error(result.message, 'Oh no!');
     }
-    Fire.success('Đã thêm thành công!', 'Success!');
     renderTableData();
     if (this.classList.contains('cb-continue')) {
         AddCustomerModal.trigger('hidden.bs.modal');
@@ -77,14 +76,8 @@ AddCustomerModal.find('.btn-add-customer').on('click', function () {
     }
 });
 
-AddCustomerModal.find('.btn-edit-customer').on('click', function () {
-    const c_code = AddCustomerModal.attr('data-c-code');
-    const customer = Customer.findCode(c_code);
-    if (customer === null) {
-        Fire.error('Khách hàng này không tồn tại!');
-        AddCustomerModal.modal('hide');
-        return;
-    }
+AddCustomerModal.find('.btn-edit-customer').on('click', async function () {
+    const id = AddCustomerModal.attr('data-id');
     if (!validateFormCustomer()) return;
     const customerForm = AddCustomerModal.find('form')
         .serializeArray()
@@ -92,25 +85,26 @@ AddCustomerModal.find('.btn-edit-customer').on('click', function () {
             res[cus.name] = cus.value;
             return res;
         }, {});
-    customer.c_code = customerForm.c_code;
-    customer.c_name = customerForm.c_name;
-    customer.c_phone = customerForm.c_phone;
-    if (Customer.update(c_code, customer)) {
+    const result = await $.post("/admin/customer/edit/" + id, customerForm);
+    if (result.success) {
         AddCustomerModal.modal('hide');
         Fire.success('Sửa thông tin khách hàng thành công!', 'Thành công!');
         renderTableData();
+    } else {
+        Fire.error(result.message);
     }
 });
 
-TableListCustomer.on('click', '.btn-edit-customer', function () {
+TableListCustomer.on('click', '.btn-edit-customer', async function () {
     const $tr = $(this).closest('tr');
-    const c_code = $tr.attr('data-c-code');
-    const customer = Customer.findCode(c_code);
+    const id = $tr.attr('data-id');
+    const customer = (await $.get('/admin/customer/id/' + id)).data;
     if (customer === null) {
         Fire.error('Khách hàng này không tồn tại!');
+        AddCustomerModal.modal('hide');
         return;
     }
-    AddCustomerModal.addClass('edit').attr('data-c-code', c_code).modal('show');
+    AddCustomerModal.addClass('edit').attr('data-id', customer.id).modal('show');
     AddCustomerModal.find('[name="c_code"]').val(customer.c_code);
     AddCustomerModal.find('[name="c_name"]').val(customer.c_name);
     AddCustomerModal.find('[name="c_phone"]').val(customer.c_phone);
@@ -118,11 +112,15 @@ TableListCustomer.on('click', '.btn-edit-customer', function () {
 
 TableListCustomer.on('click', '.btn-delete-customer', function () {
     const $tr = $(this).closest('tr');
-    const c_code = $tr.attr('data-c-code');
-    const deleteCustomerAction = () => {
-        Customer.delete(c_code);
-        Fire.success('Xóa khách hàng thành công!', 'Thành công!');
-        renderTableData();
+    const id = $tr.attr('data-id');
+    const deleteCustomerAction = async () => {
+        const result = await $.post('/admin/customer/delete/' + id);
+        if (result.success) {
+            Fire.success(result.message, 'Thành công!');
+            renderTableData();
+        } else {
+            Fire.error(result.message, 'Opps!');
+        }
     };
     Fire.confirm('Chắc chắn xóa khách hàng này?', deleteCustomerAction)
 });
