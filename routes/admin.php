@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\AwardSystemController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,13 @@ Route::middleware('admin.auth')->group(function() {
         Route::post('/delete/{id}', [CustomerController::class, 'delete']);
         Route::post('/truncate', [CustomerController::class, 'truncate']);
         Route::get('/{type}/{value}', [CustomerController::class, 'getOne']);
+    });
+
+    Route::prefix('award-system')->group(function() {
+        Route::get('', [AwardSystemController::class, 'list']);
+        Route::post('/add', [AwardSystemController::class, 'add']);
+        Route::post('/delete/{id}', [AwardSystemController::class, 'delete']);
+        Route::get('/{id}', [AwardSystemController::class, 'getOne']);
     });
 });
 
