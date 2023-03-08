@@ -13,6 +13,6 @@ class HomeController extends Controller
 
     public function quanLyKhachHang()
     {
-        return view('quan-ly-khach-hang');
+        return redirect('/admin');
     }
 }

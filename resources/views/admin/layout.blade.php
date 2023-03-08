@@ -243,7 +243,7 @@
     <!-- Main Container -->
     <main id="main-container">
         <!-- Page Content -->
-        <div class="content">
+        <div class="content mx-auto">
             @yield('contents')
         </div>
         <!-- END Page Content -->
