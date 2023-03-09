@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customers;
+use App\Models\Winner;
 use App\Response\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -114,6 +115,7 @@ class CustomerController extends Controller
 
     public function truncate() {
         Customers::truncate();
+        Winner::truncate();
         return Response::success([], 'Xóa toàn bộ khách hàng thành công!');
     }
 }
