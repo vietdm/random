@@ -30,6 +30,13 @@ const RandomControlCommon = {
 
 function RandomControl(datas, el, winnerMgs = '%winner% đã chiến thắng!!!') {
     const $el = $(el);
+    let dataRandom = [];
+
+    if (datas instanceof Promise) {
+        datas.then(data => dataRandom = data);
+    } else {
+        dataRandom = datas;
+    }
 
     const showWinner = (winner) => {
         $el.empty();
@@ -39,9 +46,9 @@ function RandomControl(datas, el, winnerMgs = '%winner% đã chiến thắng!!!'
     }
 
     const run = async (timeout = 1) => {
-        const listWinner = Winner.all();
+        const listWinner = await Winner.all();
         $('#start-random').prop('disabled', true);
-        const dataCurrent = datas.filter(data => !listWinner.includes(data));
+        const dataCurrent = dataRandom.filter(data => !listWinner.includes(data));
         const winner = dataCurrent[RandomControlCommon.randomIndex(dataCurrent.length)];
         if (!winner) {
             return;
@@ -61,7 +68,7 @@ function RandomControl(datas, el, winnerMgs = '%winner% đã chiến thắng!!!'
             showWinner(winner);
             Winner.render();
             Fire.success(winnerMgs.replace('%winner%', winner));
-            if (listWinner.length !== datas.length) $('#start-random').prop('disabled', false);
+            if (listWinner.length !== dataRandom.length) $('#start-random').prop('disabled', false);
         }
         intervalRandomShow = setInterval(() => {
             let randomText = winner.substr(0, index);

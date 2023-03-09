@@ -5,7 +5,7 @@ namespace App\Response;
 use Illuminate\Http\JsonResponse;
 
 class Response {
-    public static function success($data, $mgs = 'Success!'): JsonResponse
+    public static function success($data = [], $mgs = 'Success!'): JsonResponse
     {
         return response()->json([
             'success' => true,

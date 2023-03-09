@@ -1,7 +1,5 @@
-const TableListCustomer = $('#table-list-customer');
-const TableListCustomerBody = TableListCustomer.find('tbody');
-const customers = Customer.all().map(customer => customer.c_code);
 const BtnResetWinner = $('.btn-reset-winner');
+const customersAsync = async () => (await Customer.all()).map(customer => customer.c_code);
 
 BtnResetWinner.on('click', () => {
     const resetWinnerAction = async () => {
@@ -17,25 +15,29 @@ BtnResetWinner.on('click', () => {
     Fire.confirm('Chắc chắn xóa hết khách hàng chiến thắng?', resetWinnerAction);
 });
 
-const random = new RandomControl(
-    customers,
-    '.random-show',
-    'Chúc mừng khách hàng có mã <b>%winner%</b> đã chiến thắng!!!'
-);
-
-const triggerDisableStartRandom = () => {
-    if (customers.length === 0 || customers.length === Winner.all().length) {
+const triggerDisableStartRandom = async () => {
+    const customers = await customersAsync();
+    const winner = await Winner.all();
+    if (customers.length === 0 || customers.length === winner.length) {
         $('#start-random').prop('disabled', true);
     } else {
         $('#start-random').prop('disabled', false);
     }
 }
 
-$('#start-random').on('click', () => {
-    random.run(1.5);
-});
+$(document).ready(async () => {
+    const customers = await customersAsync();
 
-$(document).ready(() => {
+    const random = new RandomControl(
+        customers,
+        '.random-show',
+        'Chúc mừng khách hàng có mã <b>%winner%</b> đã chiến thắng!!!'
+    );
+
+    $('#start-random').on('click', () => {
+        random.run(1.5);
+    });
+
     Winner.render();
     triggerDisableStartRandom();
 });

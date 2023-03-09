@@ -1,19 +1,21 @@
 const Winner = {
     key: 'customer_winner',
-    add(code) {
-        const winner = this.all();
-        winner.push(code);
-        store(this.key, winner);
+    async add(code) {
+        const result = await $.post('/winner/' + code);
+        if (!result.success) {
+            Fire.error(result.message);
+        }
     },
-    all() {
-        return store(this.key) || [];
+    async all() {
+        const winner = (await $.get('/winner')).data;
+        return winner.map(win => win.c_code);
     },
-    reset() {
-        store(this.key, []);
+    async reset() {
+        await $.post('/winner/truncate');
     },
-    render() {
-        const listWinner = this.all();
-        const customerWin = Customer.all().filter(cus => listWinner.includes(cus.c_code));
+    async render() {
+        const listWinner = await this.all();
+        const customerWin = (await Customer.all()).filter(cus => listWinner.includes(cus.c_code));
         Customer.renderWithCustomerInput('#table-list-customer tbody', customerWin);
     }
 }

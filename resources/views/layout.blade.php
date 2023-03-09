@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="{{ asset('images/logo.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('head')
 </head>
 
@@ -26,10 +27,16 @@
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/store.min.js') }}"></script>
     <script src="{{ asset('js/fire.js') }}"></script>
-    <script src="{{ asset('js/customer.js') }}"></script>
     @yield('script')
 </body>
 

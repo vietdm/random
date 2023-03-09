@@ -1,4 +1,7 @@
 const Customer = {
+    async all() {
+        return (await $.get('/customer')).data;
+    },
     render(target, data = [], hasAction = false) {
         this.renderWithCustomerInput(target, data, hasAction);
     },

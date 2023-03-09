@@ -41,5 +41,6 @@
 @section('script')
     <script src="{{ asset('js/random-control.js') }}"></script>
     <script src="{{ asset('js/winner.js') }}"></script>
+    <script src="{{ asset('js/customer.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 @endsection

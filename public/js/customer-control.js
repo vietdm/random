@@ -18,7 +18,7 @@ const validateFormCustomer = () => {
 };
 
 const renderTableData = async () => {
-    const result = await $.get('/admin/customer');
+    const result = await $.get('/customer');
     Customer.render(TableListCustomerBody, result.data, true);
 };
 
