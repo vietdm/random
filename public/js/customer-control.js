@@ -21,8 +21,8 @@ const renderTableData = async (timeretry = 3) => {
     const result = await $.get('/customer');
 
     if (typeof Customer == 'undefined') {
-        if (timeretry == 0) return;
-        return setTimeout(() => renderTableData(timeretry - 1), 100);
+        if (timeretry === 0) return;
+        // return setTimeout(() => renderTableData(timeretry - 1), 100);
     }
     Customer.render(TableListCustomerBody, result.data, true);
 };
