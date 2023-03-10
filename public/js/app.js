@@ -29,6 +29,8 @@ const triggerPressSpaceToRandom = () => {
     $(document).on('keypress', (e) => {
         if (e.keyCode !== 32) return;
         if ($('.swal2-container.swal2-backdrop-show').length > 0) return;
+        e.preventDefault();
+        e.stopPropagation();
         $('[id="start-random"]').trigger('click');
     })
 }
