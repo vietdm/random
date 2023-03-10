@@ -26,7 +26,7 @@
         <table class="table table-center" id="table-list-customer">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>Giải thưởng</th>
                     <th>Mã KH</th>
                     <th>Tên KH</th>
                     <th>SDT</th>

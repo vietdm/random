@@ -25,6 +25,14 @@ const triggerDisableStartRandom = async () => {
     }
 }
 
+const triggerPressSpaceToRandom = () => {
+    $(document).on('keypress', (e) => {
+        if (e.keyCode === 32) {
+            $('[id="start-random"]').trigger('click');
+        }
+    })
+}
+
 $(document).ready(async () => {
     const customers = await customersAsync();
 
@@ -40,4 +48,5 @@ $(document).ready(async () => {
 
     Winner.render();
     triggerDisableStartRandom();
+    triggerPressSpaceToRandom();
 });
