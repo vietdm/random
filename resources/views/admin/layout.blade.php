@@ -289,6 +289,7 @@
     });
 </script>
 <!-- Page JS Code -->
+<script>window.is_admin = true</script>
 <script src="{{ asset('__/js/pages/be_pages_dashboard.min.js') }}"></script>
 <script src="{{ asset('js/sweetalert.min.js') }}"></script>
 <script src="{{ asset('js/fire.js') }}"></script>

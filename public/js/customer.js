@@ -38,7 +38,7 @@ const Customer = {
             }
             target.append(`
                 <tr data-id="${customer.id}">
-                    <td class="text-center">${giai_thuong}</td>
+                    <td class="text-center">${window.is_admin ? (parseInt(index) + 1) : giai_thuong}</td>
                     <td class="text-center">${c_code}</td>
                     <td class="text-center">${customer.c_name}</td>
                     <td class="text-center">${c_phone}</td>
