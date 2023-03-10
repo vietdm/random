@@ -46,6 +46,9 @@ function RandomControl(datas, el, winnerMgs = '%winner% đã chiến thắng!!!'
     }
 
     const run = async (timeout = 1) => {
+        if ($('#start-random').prop('disabled') || $('#start-random').hasClass('disabled')) {
+            return;
+        }
         const listWinner = await Winner.all();
         $('#start-random').prop('disabled', true);
         const dataCurrent = dataRandom.filter(data => !listWinner.includes(data));
