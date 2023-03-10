@@ -19,6 +19,9 @@ const validateFormCustomer = () => {
 
 const renderTableData = async () => {
     const result = await $.get('/customer');
+    if (typeof Customer == 'undefined') {
+        return setTimeout(renderTableData, 100);
+    }
     Customer.render(TableListCustomerBody, result.data, true);
 };
 
